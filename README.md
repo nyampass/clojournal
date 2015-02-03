@@ -16,8 +16,8 @@ To start a web server for the application, run:
 
 ## Library License
 
-Clojournal uses WYSIWYG.js for WYSIWYG editor.
-WYSIWYG.js is released under Apache License 2.0 (http://www.apache.org/licenses/).
+Clojournal uses WYSIWYG.js for WYSIWYG editor, which is released under Apache License 2.0 (http://www.apache.org/licenses/).
+
 The following files and directories belong to WYSIWYG.js:
 
 - resources/public/css/wysiwyg-editor.css
