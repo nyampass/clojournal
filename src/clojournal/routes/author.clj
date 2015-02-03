@@ -3,6 +3,7 @@
             [clojournal.layout :as layout]
             [clojournal.util :as util]
             [clojournal.models.author :as author]
+            [clojournal.models.article :as article]
             [noir.session :as session]
             [noir.response :as response]))
 
@@ -12,18 +13,28 @@
 
 (defn top-page []
   (layout/render
-    "home.html" {:content (util/md->html "/md/docs.md")}))
+    "author/home.html" {:articles (article/latest-articles 10)}))
+
+(defn post-article [author-id title content tags]
+  (let [tags' (clojure.string/split tags #"\s*,\s*")]
+    (article/add-article! :title title :content content :author author-id :tags tags')
+    (response/redirect "/")))
 
 (defn wrap-auth [app]
   (fn [req]
-    (if (session/get :author)
-      (app req)
+    (if-let [id (session/get :author)]
+      (let [author (author/find-author id)
+            req (assoc req :author author)]
+        (app req))
       (response/redirect "/"))))
 
 (def author-routes*
   (-> (routes
         (GET "/" []
-             (top-page)))
+             (top-page))
+        (POST "/article" {{:keys [title content tags]} :params}
+              (let [author-id (session/get :author)]
+                (post-article author-id title content tags))))
       wrap-auth))
 
 (defn authenticate [email password]
@@ -37,5 +48,5 @@
        (login-page))
   (POST "/login" {{:keys [email password]} :params}
         (authenticate email password))
-  (context "/author" req
-           (author-routes* req)))
+  (context "/author" _
+           author-routes*))

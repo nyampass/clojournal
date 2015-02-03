@@ -6,7 +6,16 @@
       <input type="text" name="title" />
       <textarea id="content" name="content">
       </textarea>
+      <input type="text" name="tags" />
       <input type="submit" value="Post" />
     </form>
   </div>
+  <div>
+    <ul>
+      {% for article in articles %}
+      <li><a href="/entry/{{article.id}}">{{article.title}}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+  
 {% endblock %}
