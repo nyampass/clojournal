@@ -18,7 +18,7 @@
 (defn post-article [author-id title content tags]
   (let [tags' (clojure.string/split tags #"\s*,\s*")]
     (article/add-article! :title title :content content :author author-id :tags tags')
-    (response/redirect "/")))
+    (response/redirect "/author")))
 
 (defn wrap-auth [app]
   (fn [req]
