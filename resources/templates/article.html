@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>{{title}}</h1>
+    <div>{{content}}</div>
+    <div>
+      <ul>
+        <li>作成者: {{author}}</li>
+        <li>最終更新日時: {{updated-at|date:"yyyy-MM-dd HH:mm"}}</li>
+        <li>タグ: {{tags}}</li>
+      </ul>
+    </div>
+{% endblock %}
