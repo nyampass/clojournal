@@ -1,12 +1,19 @@
-{% extends "author/base.html" %}
+{% extends "base.html" %}
 {% block content %}
-  <div class="jumbotron">
-    <h1></h1>
-    <form method="POST" action="/author/article">
-      <input type="text" name="title" />
-      <textarea id="content" name="content">
-      </textarea>
-      <input type="submit" value="Post" />
-    </form>
+  <div>
+    {% for article in articles.articles %}
+    <article>
+      <h2><a href="/entry/{{article.id}}">{{article.title}}</a></h2>
+      <p>
+        {{article.content|safe}}
+      </p>
+    </article>
+    {% endfor %}
+    {% if articles.older-page %}
+    <a href="/pages/{{articles.older-page}}">Older</a>
+    {% endif %}
+    {% if articles.newer-page %}
+    <a href="/pages/{{articles.newer-page}}">Newer</a>
+    {% endif %}
   </div>
 {% endblock %}

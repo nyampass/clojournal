@@ -11,12 +11,17 @@
 (defn- fix-article [article]
   (util/fix-object article))
 
-(defn latest-articles [num]
-  (->> (mq/with-collection db "articles"
-         (mq/find {})
-         (mq/sort (array-map :created-at -1))
-         (mq/limit num))
-       (map fix-article)))
+(defn latest-articles [page count]
+  (let [articles (->> (mq/with-collection db "articles"
+                        (mq/find {})
+                        (mq/sort (array-map :created-at -1))
+                        (mq/skip (* page count))
+                        (mq/limit count))
+                      (map fix-article))
+        num (mc/count db "articles")]
+    {:articles articles
+     :newer-page (when (> page 0) (dec page))
+     :older-page (when (< (* (inc page) count) num) (inc page))}))
 
 (defn find-article [id]
   (fix-article (mc/find-one-as-map db "articles" {:_id (ObjectId. id)})))

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
     <h1>{{title}}</h1>
-    <div>{{content}}</div>
+    <div>{{content|safe}}</div>
     <div>
       <ul>
         <li>作成者: {{author}}</li>
