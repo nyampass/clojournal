@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+  <div>
+    <h1 style="display: inline">検索結果</h1>
+    <p>({{first}}-{{last}}/{{total}}件)</p>
+    {% for article in articles %}
+    <section>
+      <h3><a href="/entry/{{article.id}}">{{article.title}}</a></h3>
+      <p>
+        {{article.content|remove-tags}}
+      </p>
+    </section>
+    {% endfor %}
+    {% if prev-page %}
+    <a href="/search?q={{words|join:" "|urlescape}}&page={{prev-page}}">←Prev</a>
+    {% endif %}
+    {% if next-page %}
+    <a href="/search?q={{words|join:" "|urlescape}}&page={{next-page}}">Next→</a>
+    {% endif %}
+  </div>
+{% endblock %}
