@@ -35,7 +35,7 @@
         {:title (:title article)
          :content (preprocess-content (:content article))
          :author (:name author)
-         :tags (clojure.string/join ", " (:tags article))
+         :tags (str/join ", " (:tags article))
          :updated-at (:updated-at article)}))))
 
 (defroutes article-routes
