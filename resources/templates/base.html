@@ -12,8 +12,8 @@
   </head>
   <body>
     <div class="container">
-    <!-- navbar -->
       <a href="{{servlet-context}}/"><img src="/img/clojournal_logo.png" class="img-responsive" alt="Clojournal"></a>
+      <!-- navbar -->
       <div class="navbar navbar-inverse">
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -32,8 +32,28 @@
           </div>
         </div>
       </div>
-      {% block content %}
-      {% endblock %}
+      <!-- End of navbar -->
+      <div class="row">
+        <div class="col-md-9">
+          {% block content %}
+          {% endblock %}
+        </div>
+        <div class="col-md-3">
+          <section>
+            <h3>Clojournalについて</h3>
+          </section>
+          <section>
+            <h3>タグ</h3>
+          </section>
+          <section>
+            <h3>新着記事</h3>
+            <ul>
+              <li>hoge</li>
+              <li>fuga</li>
+              <li>piyo</li>
+            </ul>
+          </section>
+        </div>
     </div>
     <!-- scripts and styles -->
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
