@@ -12,7 +12,7 @@
   </div>
   <div>
     <ul>
-      {% for article in articles %}
+      {% for article in articles.articles %}
       <li><a href="/entry/{{article.id}}">{{article.title}}</a></li>
       {% endfor %}
     </ul>

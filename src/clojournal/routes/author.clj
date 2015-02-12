@@ -13,7 +13,7 @@
 
 (defn top-page []
   (layout/render
-    "author/home.html" {:articles (article/latest-articles 10)}))
+    "author/home.html" {:articles (article/latest-articles 0 10)}))
 
 (defn post-article [author-id title content tags]
   (let [tags' (clojure.string/split tags #"\s*,\s*")]
