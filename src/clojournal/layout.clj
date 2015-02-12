@@ -3,7 +3,8 @@
             [clojure.string :as s]
             [ring.util.response :refer [content-type response]]
             [compojure.response :refer [Renderable]]
-            [environ.core :refer [env]]))
+            [environ.core :refer [env]]
+            [clojournal.models.article :as article]))
 
 (parser/set-resource-path!  (clojure.java.io/resource "templates"))
 
@@ -20,7 +21,9 @@
                     ;; example when using mock requests), then
                     ;; .getContextPath might not exist
                     (try (.getContextPath context)
-                         (catch IllegalArgumentException _ context))))
+                         (catch IllegalArgumentException _ context)))
+                  ;; FIXME: the following line always issues db query even if not necessary
+                  :latest-articles (:articles (article/latest-articles 0 10)))
         (parser/render-file (str template))
         response)
       "text/html; charset=utf-8")))
