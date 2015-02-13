@@ -52,7 +52,7 @@
           </section>
           <section>
             <h3>タグ</h3>
-              {% for tag in tags %}
+              {% for tag in tag-cloud-tags %}
               <span style="font-size: {{tag.size}}px"><a href="/tags/{{tag._id}}">{{tag._id}}</a></span>
               {% endfor %}
           </section>

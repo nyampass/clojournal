@@ -25,7 +25,7 @@
                          (catch IllegalArgumentException _ context)))
                   ;; FIXME: the following line always issues db query even if not necessary
                   :latest-articles (:articles (article/latest-articles 0 10))
-                  :tags (map #(assoc % :size (long (+ 20 (* (:group %) 20))))
+                  :tag-cloud-tags (map #(assoc % :size (long (+ 20 (* (:group %) 20))))
                              (tag/tag-cloud)))
         (parser/render-file (str template))
         response)
