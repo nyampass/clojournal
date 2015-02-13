@@ -5,7 +5,10 @@
             [clojournal.util :as util]
             [clojournal.db :refer [db]]
             [clojournal.models.tag :refer [upsert-tags!]]
-            [clojure.string :as str])
+            [clojure.string :as str]
+            [clj-time
+             [core :as t]
+             [coerce :as coerce]])
   (:import java.util.Date
            java.util.regex.Pattern
            org.bson.types.ObjectId))
@@ -44,6 +47,15 @@
      :last  (+ skip (count articles))
      :prev-page (when (> page 0) (dec page))
      :next-page (when (< (* (inc page) per-page) num) (inc page))}))
+
+(defn all-articles []
+  (map fix-article (mc/find-maps db "articles")))
+
+(defn find-articles-in-year [year]
+  (->> (mc/find-maps db "articles"
+                     {:created-at {mo/$gte (coerce/to-date (t/date-time year))
+                                   mo/$lt (coerce/to-date (t/date-time (inc year)))}})
+       (map fix-article)))
 
 (defn find-article [id]
   (fix-article (mc/find-one-as-map db "articles" {:_id (ObjectId. id)})))

@@ -3,7 +3,11 @@
             [clojournal.layout :as layout]
             [clojournal.util :as util]
             [clojournal.models.article :as article]
-            [clojure.string :as str]))
+            [clojure.string :as str]
+            [clj-time
+             [core :as t]
+             [coerce :as c]])
+  (import org.joda.time.DateTime))
 
 (defn home-page [page]
   (layout/render
@@ -23,6 +27,23 @@
         result (assoc result :words words)]
     (layout/render "search.html" result)))
 
+(defn archives-page []
+  (let [years (->> (article/all-articles)
+                   (map #(t/year (c/from-date (:created-at %))))
+                   (into (sorted-set)))]
+    (layout/render "archives.html" {:years (rseq years)})))
+
+(defn year-archives-page [year]
+  (let [articles (->> (article/find-articles-in-year year)
+                      (map #(assoc % :month (t/month (c/from-date (:created-at %)))))
+                      (group-by :month)
+                      ((fn [as]
+                         (->> (for [[k v] as]
+                                [k (reverse (sort-by :created-at v))])
+                              (into (sorted-map)))))
+                      rseq)]
+    (layout/render "year-archives.html" {:year year :months articles})))
+
 (defroutes home-routes
   (GET "/" []
        (home-page 0))
@@ -37,4 +58,11 @@
          (let [page (Long/parseLong page)
                words (str/split q #"\s+")]
            (search-page words page))
+         (catch NumberFormatException _)))
+  (GET "/archives" []
+       (archives-page))
+  (GET "/archives/:year" {{:keys [year]} :params}
+       (try
+         (let [year (Long/parseLong year)]
+           (year-archives-page year))
          (catch NumberFormatException _))))
