@@ -20,10 +20,7 @@
 
 (defn search-page [words page]
   (let [{:keys [articles] :as result} (article/search-articles words page 10)
-        result (-> result
-                   (assoc :articles
-                          (map #(update-in % [:content] shorten-content) articles))
-                   (assoc :words words))]
+        result (assoc result :words words)]
     (layout/render "search.html" result)))
 
 (defroutes home-routes

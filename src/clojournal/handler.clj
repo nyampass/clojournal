@@ -13,12 +13,21 @@
             [taoensso.timbre :as timbre]
             [taoensso.timbre.appenders.rotor :as rotor]
             [selmer.parser :as parser]
+            [selmer.filters :as filter]
             [environ.core :refer [env]]
-            [cronj.core :as cronj]))
+            [cronj.core :as cronj]
+            [clojure.string :as str]))
 
 (defroutes base-routes
   (route/resources "/")
   (route/not-found "Not Found"))
+
+;; Selmer filters
+(defn remove-all-tags [x]
+  (str/replace x #"<[^>]+?>" ""))
+
+(defn shorten-content [x n]
+  (subs x 0 (min (count x) (Long/parseLong n))))
 
 (defn init
   "init will be called once when
@@ -42,6 +51,9 @@
   ;;start the expired session cleanup job
   (cronj/start! session-manager/cleanup-job)
   (db/create-indexes)
+  ;; register Selmer filters
+  (filter/add-filter! :remove-all-tags remove-all-tags)
+  (filter/add-filter! :shorten shorten-content)
   (timbre/info "\n-=[ clojournal started successfully"
                (when (env :dev) "using the development profile") "]=-"))
 
