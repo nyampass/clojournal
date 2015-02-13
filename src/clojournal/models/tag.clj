@@ -15,3 +15,16 @@
      (mq/find {})
      (mq/sort {:refs -1})
      (mq/limit num))))
+
+(defn tag-cloud
+  ([] (tag-cloud 100))
+  ([num]
+   (let [tags (mq/with-collection db "tags"
+                (mq/find {})
+                (mq/sort {:_id 1})
+                (mq/limit num))
+         refs (map :refs tags)
+         min (double (apply min refs))
+         max (double (apply max refs))
+         f (fn [n] (/ (- n min) (- max min)))]
+     (map #(assoc % :group (f (:refs %))) tags))))

@@ -4,7 +4,8 @@
             [ring.util.response :refer [content-type response]]
             [compojure.response :refer [Renderable]]
             [environ.core :refer [env]]
-            [clojournal.models.article :as article]))
+            [clojournal.models.article :as article]
+            [clojournal.models.tag :as tag]))
 
 (parser/set-resource-path!  (clojure.java.io/resource "templates"))
 
@@ -23,7 +24,9 @@
                     (try (.getContextPath context)
                          (catch IllegalArgumentException _ context)))
                   ;; FIXME: the following line always issues db query even if not necessary
-                  :latest-articles (:articles (article/latest-articles 0 10)))
+                  :latest-articles (:articles (article/latest-articles 0 10))
+                  :tags (map #(assoc % :size (long (+ 20 (* (:group %) 20))))
+                             (tag/tag-cloud)))
         (parser/render-file (str template))
         response)
       "text/html; charset=utf-8")))
