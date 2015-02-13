@@ -37,6 +37,7 @@
          :content (preprocess-content (:content article))
          :author (:name author)
          :tags (str/join ", " (:tags article))
+         :path (str "entry/" id)
          :updated-at (:updated-at article)}))))
 
 (defroutes article-routes
