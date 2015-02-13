@@ -33,7 +33,7 @@
     (let [author (author/find-author (:author article))]
       (layout/render
         "article.html"
-        {:page-title (:title article)
+        {:page-title (str (:title article) " - clojournal")
          :title (:title article)
          :content (preprocess-content (:content article))
          :author (:name author)
