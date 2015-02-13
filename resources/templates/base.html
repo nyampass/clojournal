@@ -23,13 +23,13 @@
       <a href="{{servlet-context}}/"><img src="/img/clojournal_logo.png" class="img-responsive" alt="Clojournal"></a>
       <!-- navbar -->
       <div class="navbar navbar-inverse">
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li class="{{home-selected}}"><a href="{{servlet-context}}/">Home</a></li>
-            <li class="{{archives-selected}}"><a href="{{servlet-context}}/archives">Archives</a></li>
-          </ul>
-          <div class="col-sm-3 col-md-3 pull-right">
-            <form class="navbar-form" role="search" method="get" action="/search">
+        <div class="content-fluid">
+          <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li class="{{home-selected}}"><a href="{{servlet-context}}/">Home</a></li>
+              <li class="{{archives-selected}}"><a href="{{servlet-context}}/archives">Archives</a></li>
+            </ul>
+            <form class="navbar-form navbar-right" role="search" method="get" action="/search">
               <div class="input-group">
                 <input type="text" class="form-control" placeholder="Search" name="q" id="srch-term" {% if words %}value="{{words|join:" "}}"{% endif %}>
                 <div class="input-group-btn">
