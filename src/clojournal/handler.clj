@@ -5,6 +5,7 @@
             [clojournal.routes.article :refer [article-routes]]
             [clojournal.middleware :refer [load-middleware]]
             [clojournal.session-manager :as session-manager]
+            [clojournal.db :as db]
             [noir.response :refer [redirect]]
             [noir.util.middleware :refer [app-handler]]
             [ring.middleware.defaults :refer [site-defaults]]
@@ -40,6 +41,7 @@
   (if (env :dev) (parser/cache-off!))
   ;;start the expired session cleanup job
   (cronj/start! session-manager/cleanup-job)
+  (db/create-indexes)
   (timbre/info "\n-=[ clojournal started successfully"
                (when (env :dev) "using the development profile") "]=-"))
 
