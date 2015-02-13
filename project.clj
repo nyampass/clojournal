@@ -15,7 +15,8 @@
                  [prone "0.8.0"]
                  [com.novemberain/monger "2.0.1"]
                  [lib-noir "0.9.5"]
-                 [crypto-password "0.1.3"]]
+                 [crypto-password "0.1.3"]
+                 [clj-time "0.9.0"]]
   :uberjar-name "clojournal.jar"
   :repl-options {:init-ns clojournal.repl}
   :jvm-opts ["-server"]
