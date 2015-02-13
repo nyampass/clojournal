@@ -21,7 +21,8 @@
                               (str/replace "\n" "")
                               (str/replace "<br>" "</p>\n<p>"))]]
            (if code
-             (format "%s</p>\n<pre class=\"brush: clojure\">%s</pre>\n<p>" text code)
+             (let [code (str/replace code "&nbsp;" " ")]
+               (format "%s</p>\n<pre class=\"brush: clojure\">%s</pre>\n<p>" text code))
              text))
          str/join
          (format "<p>%s</p>")
