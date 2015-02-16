@@ -17,6 +17,7 @@
 
 (defn post-article [author-id title content tags]
   (let [tags' (clojure.string/split tags #"\s*,\s*")]
+    (assert (some empty? tags'))
     (article/add-article! :title title :content content :author author-id :tags tags')
     (response/redirect "/author")))
 
