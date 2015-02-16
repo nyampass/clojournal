@@ -1,6 +1,7 @@
 (ns clojournal.core
   (:require [clojournal.handler :as handler]
-            [ring.adapter.jetty :refer [run-jetty]]))
+            [ring.adapter.jetty :refer [run-jetty]])
+  (:gen-class))
 
 (defn -main []
   (let [port (Long/parseLong (get (System/getenv) "PORT" "8080"))]

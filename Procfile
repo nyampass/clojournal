@@ -1,2 +1,2 @@
-web: java $JVM_OPTS -cp target/clojournal.jar clojure.main -m clojournal.core
+web: java $JVM_OPTS -cp target/clojournal.jar clojournal.core
 
