@@ -1,1 +1,2 @@
-web: lein with-profile production trampoline ring server
+web: java $JVM_OPTS -cp target/clojournal.jar clojure.main -m clojournal.core
+
