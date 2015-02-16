@@ -1,0 +1,19 @@
+{% extends "author/base.html" %}
+{% block content %}
+  <div class="jumbotron">
+    <h1></h1>
+    <form method="POST" action="/author/entry/{{id}}/edit">
+      <input type="text" name="title" value="{{title}}"/>
+      <textarea id="content" name="content">{{content}}</textarea>
+      <input type="text" name="tags" value="{{tags|join:", "}}"/>
+      <input type="submit" value="Post" />
+    </form>
+  </div>
+  <div>
+    <ul>
+      {% for article in articles.articles %}
+      <li><a href="/entry/{{article.id}}">{{article.title}}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endblock %}
