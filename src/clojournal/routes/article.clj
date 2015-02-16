@@ -30,15 +30,18 @@
 
 (defn article-page [id]
   (when-let [article (article/find-article id)]
-    (let [author (author/find-author (:author article))]
+    (let [author (author/find-author (:author article))
+          path (str "entry/" id)]
       (layout/render
         "article.html"
         {:page-title (str (:title article) " - clojournal")
+         :page-description (:content article)
+         :page-path path
          :title (:title article)
          :content (preprocess-content (:content article))
          :author (:name author)
          :tags (str/join ", " (:tags article))
-         :path (str "entry/" id)
+         :path path
          :updated-at (:updated-at article)}))))
 
 (defroutes article-routes
