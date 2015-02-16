@@ -44,6 +44,10 @@
                       rseq)]
     (layout/render "year-archives.html" {:year year :months articles})))
 
+(defn tags-page [tag]
+  (let [articles (article/find-articles-by-tag tag)]
+    (layout/render "tags.html" {:tag tag :articles articles})))
+
 (defroutes home-routes
   (GET "/" []
        (home-page 0))
@@ -65,4 +69,6 @@
        (try
          (let [year (Long/parseLong year)]
            (year-archives-page year))
-         (catch NumberFormatException _))))
+         (catch NumberFormatException _)))
+  (GET "/tags/:tag" {{:keys [tag]} :params}
+       (tags-page tag)))

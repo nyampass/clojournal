@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+  <div>
+    <h1>{{tag}}</h1>
+    {% for article in articles %}
+    <section>
+      <h3><a href="/entry/{{article.id}}">{{article.title}}</a> <small>{{article.tags|join:", "}}</small></h3>
+      <p>
+        {{article.content|remove-all-tags|shorten:100}}
+      </p>
+    </section>
+    {% endfor %}
+  </div>
+{% endblock %}

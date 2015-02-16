@@ -57,6 +57,11 @@
                                    mo/$lt (coerce/to-date (t/date-time (inc year)))}})
        (map fix-article)))
 
+(defn find-articles-by-tag [tag]
+  (->> (mc/find-maps db "articles"
+                     {:tags {mo/$in [tag]}})
+       (map fix-article)))
+
 (defn find-article [id]
   (fix-article (mc/find-one-as-map db "articles" {:_id (ObjectId. id)})))
 
