@@ -11,7 +11,7 @@
 
 (defn home-page [page]
   (layout/render
-    "home.html" {:articles (article/latest-articles page 2)}))
+    "home.html" {:articles (article/latest-articles page 5)}))
 
 (defn about-page []
   (layout/render "about.html"))
