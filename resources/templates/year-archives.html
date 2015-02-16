@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+  <div>
+    <h2 style="display:inline"><a href="/archives">Archives</a> &gt; {{year}}</h2>
+    <hr>
+    <section>
+      {% for month in months %}
+      <section>
+        <h3>{{month.0}}月</h3>
+        <dl>
+          {% for article in month.1 %}
+          <dt>{{article.created-at|date:"M/d"}}</dt>
+          <dd><a href="/entry/{{article.id}}">{{article.title}}</a></dd>
+          {% endfor %}
+        </dl>
+      </section>
+      {% endfor %}
+    </section>
+  </div>
+{% endblock %}

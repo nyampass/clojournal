@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+  <div>
+    <h1>Archives</h1>
+    <section>
+      <ul>
+        {% for year in years %}
+        <li><a href="/archives/{{year}}">{{year}}</li>
+        {% endfor %}
+      </ul>
+    </section>
+  </div>
+{% endblock %}
