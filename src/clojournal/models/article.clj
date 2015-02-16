@@ -73,8 +73,8 @@
     (upsert-tags! tags')
     (fix-article (mc/insert-and-return db "articles" article))))
 
-(defn update-article! [& {:keys [id title content author tags] :as article}]
-  (assert (and (seq id) (seq title) (seq content) (seq author) (>= (count tags) 1)))
+(defn update-article! [& {:keys [id title content tags] :as article}]
+  (assert (and (seq id) (seq title) (seq content) (>= (count tags) 1)))
   (let [now (Date.)
         {old-tags :tags} (find-article id)
         tags' (distinct tags)

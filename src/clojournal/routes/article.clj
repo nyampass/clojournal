@@ -3,7 +3,8 @@
             [clojure.string :as str]
             [clojournal.layout :as layout]
             [clojournal.models.article :as article]
-            [clojournal.models.author :as author]))
+            [clojournal.models.author :as author]
+            [noir.session :as session]))
 
 (defn parse-content [content]
   (lazy-seq
@@ -37,6 +38,7 @@
         {:page-title (str (:title article) " - clojournal")
          :page-description (:content article)
          :page-path path
+         :author? (boolean (session/get :author))
          :title (:title article)
          :content (preprocess-content (:content article))
          :author (:name author)

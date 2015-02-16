@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>{{title}}</h1>
+    <h1>{{title}}
+    {% if author? %}
+      <small><a style="display:inline" class="btn btn-info" href="/author/{{path}}/edit">編集</a></small>
+    {% endif %}
+    </h1>
     <div>{{content|safe}}</div>
     <div>
       <ul>

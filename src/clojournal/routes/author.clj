@@ -15,11 +15,23 @@
   (layout/render
     "author/home.html" {:articles (article/latest-articles 0 10)}))
 
+(defn edit-page [{:keys [id title content tags] :as article}]
+  (layout/render
+    "author/edit.html" {:id id :title title :content content :tags tags}))
+
 (defn post-article [author-id title content tags]
   (let [tags' (clojure.string/split tags #"\s*,\s*")]
     (assert (not-any? empty? tags'))
     (article/add-article! :title title :content content :author author-id :tags tags')
     (response/redirect "/author")))
+
+(defn edit-article [article-id title content tags]
+  (let [tags' (clojure.string/split tags #"\s*,\s*")]
+    (article/update-article! :id article-id
+                             :title title
+                             :content content
+                             :tags tags'))
+  (response/redirect (str "/entry/" article-id)))
 
 (defn wrap-auth [app]
   (fn [req]
@@ -35,7 +47,13 @@
              (top-page))
         (POST "/article" {{:keys [title content tags]} :params}
               (let [author-id (session/get :author)]
-                (post-article author-id title content tags))))
+                (post-article author-id title content tags)))
+        (GET "/entry/:id/edit" {{:keys [id]} :params}
+             (when-let [article (article/find-article id)]
+               (edit-page article)))
+        (POST "/entry/:id/edit" {{:keys [id title content tags]} :params}
+              (when-let [_ (article/find-article id)]
+                (edit-article id title content tags))))
       wrap-auth))
 
 (defn authenticate [email password]
