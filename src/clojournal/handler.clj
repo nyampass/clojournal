@@ -24,10 +24,13 @@
 
 ;; Selmer filters
 (defn remove-all-tags [x]
-  (str/replace x #"<[^>]+?>" ""))
+  (str/replace x #"<[^>]+?>" (fn [[_ tag name]] (if (= name "br") tag ""))))
 
 (defn shorten-content [x n]
-  (subs x 0 (min (count x) (Long/parseLong n))))
+  (let [n (if (instance? String n)
+            (Long/parseLong n)
+            n)]
+    (subs x 0 (min (count x) n))))
 
 (defn init
   "init will be called once when
