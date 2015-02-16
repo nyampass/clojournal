@@ -4,9 +4,7 @@
     {% for article in articles.articles %}
     <article>
       <h2><a href="/entry/{{article.id}}">{{article.title}}</a></h2>
-      <p>
-        {{article.content|safe}}
-      </p>
+      <p>{% digest-article article %}</p>
     </article>
     {% endfor %}
     {% if articles.older-page %}

@@ -32,6 +32,17 @@
             n)]
     (subs x 0 (min (count x) n))))
 
+(defn digest-article [[article n] context]
+  (let [{:keys [id content] :as article} (context (keyword article))
+        content (remove-all-tags content)
+        n (cond (nil? n) 200
+                (instance? String n) (Long/parseLong n)
+                :else n)]
+    (if (< (count content) n)
+      content
+      (str (shorten-content content n)
+           "... <a href=\"/entry/" id "\">[続きを読む]</a>"))))
+
 (defn init
   "init will be called once when
    app is deployed as a servlet on
@@ -57,6 +68,7 @@
   ;; register Selmer filters
   (filter/add-filter! :remove-all-tags remove-all-tags)
   (filter/add-filter! :shorten shorten-content)
+  (parser/add-tag! :digest-article digest-article)
   (timbre/info "\n-=[ clojournal started successfully"
                (when (env :dev) "using the development profile") "]=-"))
 
