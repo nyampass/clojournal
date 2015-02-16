@@ -23,8 +23,9 @@
                 (mq/find {})
                 (mq/sort {:_id 1})
                 (mq/limit num))
-         refs (map :refs tags)
-         min (double (apply min refs))
-         max (double (apply max refs))
-         f (fn [n] (/ (- n min) (- max min)))]
-     (map #(assoc % :group (f (:refs %))) tags))))
+         refs (map :refs tags)]
+     (when (seq refs)
+       (let [min (double (apply min refs))
+             max (double (apply max refs))
+             f (fn [n] (/ (- n min) (- max min)))]
+         (map #(assoc % :group (f (:refs %))) tags))))))
