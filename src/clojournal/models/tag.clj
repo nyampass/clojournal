@@ -27,5 +27,5 @@
      (when (seq refs)
        (let [min (double (apply min refs))
              max (double (apply max refs))
-             f (fn [n] (/ (- n min) (- max min)))]
+             f (fn [n] (if (= min max) 1 (/ (- n min) (- max min))))]
          (map #(assoc % :group (f (:refs %))) tags))))))
