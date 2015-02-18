@@ -1,8 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
   <div>
-    <h1 style="display: inline">検索結果</h1>
-    <p>({{first}}-{{last}}/{{total}}件)</p>
+    <h2>検索結果 <small>({{first}}-{{last}}/{{total}}件)</small></h2>
     {% for article in articles %}
     <section>
       <h3><a href="/entry/{{article.id}}">{{article.title}}</a></h3>
