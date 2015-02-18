@@ -4,7 +4,8 @@
             [clojournal.layout :as layout]
             [clojournal.models.article :as article]
             [clojournal.models.author :as author]
-            [noir.session :as session]))
+            [noir.session :as session]
+            [clj-time.local :as local]))
 
 (defn parse-content [content]
   (lazy-seq
@@ -44,7 +45,7 @@
          :author (:name author)
          :tags (str/join ", " (:tags article))
          :path path
-         :updated-at (:updated-at article)}))))
+         :updated-at (local/to-local-date-time (:updated-at article))}))))
 
 (defroutes article-routes
   (GET "/entry/:id" [id]
