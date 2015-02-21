@@ -3,6 +3,7 @@
             [clojournal.routes.home :refer [home-routes]]
             [clojournal.routes.author :refer [author-routes]]
             [clojournal.routes.article :refer [article-routes]]
+            [clojournal.routes.feed :refer [feed-routes]]
             [clojournal.middleware :refer [load-middleware]]
             [clojournal.session-manager :as session-manager]
             [clojournal.db :as db]
@@ -93,7 +94,7 @@
 
 (def app (app-handler
            ;; add your application routes here
-           [#'author-routes #'article-routes home-routes base-routes]
+           [#'author-routes #'article-routes #'feed-routes home-routes base-routes]
            ;; add custom middleware here
            :middleware (load-middleware)
            :ring-defaults (mk-defaults false)
