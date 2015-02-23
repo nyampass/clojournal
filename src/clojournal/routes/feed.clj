@@ -10,9 +10,8 @@
   (let [author (author/find-author (:author article))]
     {:title (:title article)
      ;; FIXME: Don't hardcode hostname
-     :link (str "http://clojournal.com//entry/" (:id article))
+     :link (str "http://clojournal.com/entry/" (:id article))
      :description (:content article)
-     :author (:name author)
      :category (st/join ", " (:tags article))
      :pubDate (:updated-at article)}))
 
@@ -25,5 +24,5 @@
                (:articles (article/latest-articles 0 20))))})
 
 (defroutes feed-routes
-  (GET "/feed" []                       ; XXX: is this path suitable?
+  (GET "/feed" []
        (render-feed)))
