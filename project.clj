@@ -16,7 +16,8 @@
                  [com.novemberain/monger "2.0.1"]
                  [lib-noir "0.9.5"]
                  [crypto-password "0.1.3"]
-                 [clj-time "0.9.0"]]
+                 [clj-time "0.9.0"]
+                 [clj-rss "0.1.9"]]
   :uberjar-name "clojournal.jar"
   :repl-options {:init-ns clojournal.repl}
   :jvm-opts ["-server"]
