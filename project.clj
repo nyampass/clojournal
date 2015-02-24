@@ -42,5 +42,6 @@
                       (pjstadig.humane-test-output/activate!)]
          :env {:dev true
                :mongo-url "mongodb://localhost/clojournal"}}}
+  :main clojournal.core
   :eastwood  {:exclude-linters  [:constant-test]}
   :min-lein-version "2.0.0")
