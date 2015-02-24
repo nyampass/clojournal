@@ -1,9 +1,10 @@
 (ns clojournal.test.handler
   (:use clojure.test
-        ring.mock.request
-        clojournal.handler))
+        [ring.mock.request :refer [request]]
+        [clojournal.handler :refer [app init]]))
 
 (deftest test-app
+  (init)
   (testing "main route"
     (let [response (app (request :get "/"))]
       (is (= 200 (:status response)))))
