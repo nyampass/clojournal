@@ -1,10 +1,10 @@
 (ns clojournal.repl
-  (:use clojournal.handler
-        ring.server.standalone
+  (:use [clojournal.handler :refer [app init destroy]]
+        [ring.server.standalone :refer [serve]]
         [ring.middleware
-         [file :only [wrap-file]]
-         [content-type :only [wrap-content-type]]
-         [not-modified :only [wrap-not-modified]]]))
+         [file :refer [wrap-file]]
+         [content-type :refer [wrap-content-type]]
+         [not-modified :refer [wrap-not-modified]]]))
 
 (defonce server (atom nil))
 
