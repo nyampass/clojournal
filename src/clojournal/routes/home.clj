@@ -7,7 +7,7 @@
             [clj-time
              [core :as t]
              [coerce :as c]])
-  (import org.joda.time.DateTime))
+  (:import org.joda.time.DateTime))
 
 (defn home-page [page]
   (layout/render
