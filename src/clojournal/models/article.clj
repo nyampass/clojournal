@@ -16,17 +16,17 @@
 (defn- fix-article [article]
   (util/fix-object article))
 
-(defn latest-articles [page count]
+(defn latest-articles [page per-page]
   (let [articles (->> (mq/with-collection db "articles"
                         (mq/find {})
                         (mq/sort (array-map :created-at -1))
-                        (mq/skip (* page count))
-                        (mq/limit count))
+                        (mq/skip (* page per-page))
+                        (mq/limit per-page))
                       (map fix-article))
         num (mc/count db "articles")]
     {:articles articles
      :newer-page (when (> page 0) (dec page))
-     :older-page (when (< (* (inc page) count) num) (inc page))}))
+     :older-page (when (< (* (inc page) per-page) num) (inc page))}))
 
 (defn search-articles [words page per-page]
   (let [re (->> words
