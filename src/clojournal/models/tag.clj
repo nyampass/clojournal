@@ -10,19 +10,19 @@
 
 (defn all-tags
   ([] (all-tags 20))
-  ([num]
+  ([limit]
    (mq/with-collection db "tags"
      (mq/find {})
      (mq/sort {:refs -1})
-     (mq/limit num))))
+     (mq/limit limit))))
 
 (defn tag-cloud
   ([] (tag-cloud 100))
-  ([num]
+  ([limit]
    (let [tags (mq/with-collection db "tags"
                 (mq/find {})
                 (mq/sort {:_id 1})
-                (mq/limit num))
+                (mq/limit limit))
          refs (map :refs tags)]
      (when (seq refs)
        (let [min (double (apply min refs))
