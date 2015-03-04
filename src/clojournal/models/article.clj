@@ -11,13 +11,14 @@
              [coerce :as coerce]])
   (:import java.util.Date
            java.util.regex.Pattern
-           org.bson.types.ObjectId))
+           org.bson.types.ObjectId
+           com.mongodb.DB))
 
 (defn- fix-article [article]
   (util/fix-object article))
 
 (defn latest-articles [page per-page]
-  (let [articles (->> (mq/with-collection db "articles"
+  (let [articles (->> (mq/with-collection #^DB db "articles"
                         (mq/find {})
                         (mq/sort (array-map :created-at -1))
                         (mq/skip (* page per-page))
@@ -35,7 +36,7 @@
                 (str "(?i)")
                 re-pattern)
         skip (* page per-page)
-        articles (->> (mq/with-collection db "articles"
+        articles (->> (mq/with-collection #^DB db "articles"
                           (mq/find {mo/$or [{:content re} {:title re} {:author re}]})
                           (mq/skip skip)
                           (mq/limit per-page))
@@ -62,7 +63,7 @@
                      {:tags {mo/$in [tag]}})
        (map fix-article)))
 
-(defn find-article [id]
+(defn find-article [^String id]
   (fix-article (mc/find-one-as-map db "articles" {:_id (ObjectId. id)})))
 
 (defn add-article! [& {:keys [title content author tags] :as article}]
@@ -73,7 +74,7 @@
     (upsert-tags! tags')
     (fix-article (mc/insert-and-return db "articles" article))))
 
-(defn update-article! [& {:keys [id title content tags] :as article}]
+(defn update-article! [& {:keys [^String id title content tags] :as article}]
   (assert (and (seq id) (seq title) (seq content) (>= (count tags) 1)))
   (let [now (Date.)
         {old-tags :tags} (find-article id)

@@ -2,7 +2,8 @@
   (:require [monger.collection :as mc]
             [monger.query :as mq]
             [monger.operators :as mo]
-            [clojournal.db :refer [db]]))
+            [clojournal.db :refer [db]])
+  (:import com.mongodb.DB))
 
 (defn upsert-tags! [tags]
   (doseq [tag tags]
@@ -11,7 +12,7 @@
 (defn all-tags
   ([] (all-tags 20))
   ([limit]
-   (mq/with-collection db "tags"
+   (mq/with-collection #^DB db "tags"
      (mq/find {})
      (mq/sort {:refs -1})
      (mq/limit limit))))
@@ -19,7 +20,7 @@
 (defn tag-cloud
   ([] (tag-cloud 100))
   ([limit]
-   (let [tags (mq/with-collection db "tags"
+   (let [tags (mq/with-collection #^DB db "tags"
                 (mq/find {})
                 (mq/sort {:_id 1})
                 (mq/limit limit))
