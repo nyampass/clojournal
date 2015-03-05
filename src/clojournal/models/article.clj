@@ -11,14 +11,13 @@
              [coerce :as coerce]])
   (:import java.util.Date
            java.util.regex.Pattern
-           org.bson.types.ObjectId
-           com.mongodb.DB))
+           org.bson.types.ObjectId))
 
 (defn- fix-article [article]
   (util/fix-object article))
 
 (defn latest-articles [page per-page]
-  (let [articles (->> (mq/with-collection #^DB db "articles"
+  (let [articles (->> (mq/with-collection db "articles"
                         (mq/find {})
                         (mq/sort (array-map :created-at -1))
                         (mq/skip (* page per-page))
@@ -36,7 +35,7 @@
                 (str "(?i)")
                 re-pattern)
         skip (* page per-page)
-        articles (->> (mq/with-collection #^DB db "articles"
+        articles (->> (mq/with-collection db "articles"
                           (mq/find {mo/$or [{:content re} {:title re} {:author re}]})
                           (mq/skip skip)
                           (mq/limit per-page))

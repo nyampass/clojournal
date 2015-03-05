@@ -1,9 +1,10 @@
 (ns clojournal.db
   (:require [monger.core :as mg]
             [monger.collection :as mc]
-            [environ.core :as env]))
+            [environ.core :as env])
+  (:import com.mongodb.DB))
 
-(defonce db
+(defonce ^DB db
   (let [uri (:mongo-url env/env)
         {:keys [conn db]} (mg/connect-via-uri uri)]
     db))

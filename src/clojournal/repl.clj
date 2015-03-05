@@ -35,5 +35,5 @@
     (println (str "You can view the site at http://localhost:" port))))
 
 (defn stop-server []
-  (.stop #^Server @server)
+  (.stop ^Server @server)
   (reset! server nil))
