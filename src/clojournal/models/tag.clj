@@ -2,8 +2,7 @@
   (:require [monger.collection :as mc]
             [monger.query :as mq]
             [monger.operators :as mo]
-            [clojournal.db :refer [db]])
-  (:import com.mongodb.DB))
+            [clojournal.db :refer [db]]))
 
 (defn upsert-tags! [tags]
   (doseq [tag tags]
