@@ -4,7 +4,8 @@
         [ring.middleware
          [file :refer [wrap-file]]
          [content-type :refer [wrap-content-type]]
-         [not-modified :refer [wrap-not-modified]]]))
+         [not-modified :refer [wrap-not-modified]]])
+  (:import org.eclipse.jetty.server.Server))
 
 (defonce server (atom nil))
 
@@ -34,5 +35,5 @@
     (println (str "You can view the site at http://localhost:" port))))
 
 (defn stop-server []
-  (.stop @server)
+  (.stop ^Server @server)
   (reset! server nil))

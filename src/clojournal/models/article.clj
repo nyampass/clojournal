@@ -62,7 +62,7 @@
                      {:tags {mo/$in [tag]}})
        (map fix-article)))
 
-(defn find-article [id]
+(defn find-article [^String id]
   (fix-article (mc/find-one-as-map db "articles" {:_id (ObjectId. id)})))
 
 (defn add-article! [& {:keys [title content author tags] :as article}]
@@ -73,7 +73,7 @@
     (upsert-tags! tags')
     (fix-article (mc/insert-and-return db "articles" article))))
 
-(defn update-article! [& {:keys [id title content tags] :as article}]
+(defn update-article! [& {:keys [^String id title content tags] :as article}]
   (assert (and (seq id) (seq title) (seq content) (>= (count tags) 1)))
   (let [now (Date.)
         {old-tags :tags} (find-article id)
