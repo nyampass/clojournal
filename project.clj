@@ -13,7 +13,7 @@
                  [im.chit/cronj "1.4.3"]
                  [noir-exception "0.2.3"]
                  [prone "0.8.0"]
-                 [com.novemberain/monger "2.0.1"]
+                 [com.novemberain/monger "3.0.1"]
                  [lib-noir "0.9.5"]
                  [crypto-password "0.1.3"]
                  [clj-time "0.9.0"]
